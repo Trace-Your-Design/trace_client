@@ -1,9 +1,12 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 import AboutPage from './pages/AboutPage'
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 import './App.css'
+import Gallery from './pages/Gallery/Gallery'
+import TraceLearningBoard from './pages/Learn/TraceLearningBoard'
+import { BrowserRouter, Routes, Route, } from 'react-router-dom'
+
 
 const ROUTES = [
   {
@@ -18,15 +21,12 @@ const ROUTES = [
 
 function App() {
   return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        {ROUTES.map(({ path, element }) => (
-          <Route key={path} path={path} element={element} />
-        ))}
-        <Route path="/home" element={<Navigate to="/" replace />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<TraceLearningBoard />} />
+        <Route path="/HomePage" element={<Gallery />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
