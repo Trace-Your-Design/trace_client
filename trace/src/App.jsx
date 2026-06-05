@@ -1,11 +1,13 @@
 import MainLayout from './layouts/MainLayout'
 import AboutPage from './pages/AboutPage'
-import HomePage from './pages/HomePage'
+import HomePage from './pages/Home/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
+import MakePage from './pages/Make/Make'
 import './App.css'
 import Gallery from './pages/Gallery/Gallery'
 import TraceLearningBoard from './pages/Learn/TraceLearningBoard'
 import { BrowserRouter, Routes, Route, } from 'react-router-dom'
+import TopHoverMenu from './components/TopHoverMenu/TopHoverMenu'
 
 
 const ROUTES = [
@@ -17,14 +19,22 @@ const ROUTES = [
     path: '/about',
     element: <AboutPage />,
   },
+  {
+    path: '/make',
+    element: <MakePage />,
+  }
 ]
 
 function App() {
   return (
     <BrowserRouter>
+      <TopHoverMenu />
       <Routes>
         <Route path='/' element={<TraceLearningBoard />} />
-        <Route path="/HomePage" element={<Gallery />} />
+        <Route path="/HomePage" element={<HomePage />} />
+        <Route path="/Gallery" element={<Gallery />} />
+        <Route path="/make" element={<MakePage />} />
+        <Route path="/Make" element={<MakePage />} />
       </Routes>
     </BrowserRouter>
   )
