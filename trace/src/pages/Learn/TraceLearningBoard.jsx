@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Navigate, Route, Routes } from 'react-router-dom'
 import './TraceLearningBoard.css';
 import Logo from '../../assets/TraceLogo.png';
 import Robot from '../../assets/Tracer.png';
@@ -63,12 +62,12 @@ export default function TraceLearningBoard() {
   // 3단계: 타이포그래피
   const [fontFamily, setFontFamily] = useState('Inter');
   const [titleSize, setTitleSize] = useState(32);
-  const [bodySize, setBodySize] = useState(16);
+  const [bodySize] = useState(16);
 
   // 4단계: 색상
   const [primaryColor, setPrimaryColor] = useState('#18a0fb');
   const [canvasBg, setCanvasBg] = useState('#ffffff');
-  const [textColor, setTextColor] = useState('#333333');
+  const [textColor] = useState('#333333');
 
   // 5단계: 컴포넌트
   const [borderRadius, setBorderRadius] = useState(8);
@@ -115,7 +114,8 @@ export default function TraceLearningBoard() {
             <strong>도우미: </strong> {stepData.assistant}
           </div>
           <button 
-            className="next-btn" 
+            className={`next-btn ${currentStep === 7 ? 'next-btn--complete' : ''}`}
+            aria-label={currentStep === 7 ? '학습 완료' : '다음 단계로'}
             onClick={() => {
               // 4번에서 5번 단계로 넘어갈 때 색상 초기화
               if (currentStep === 4) {
@@ -130,7 +130,7 @@ export default function TraceLearningBoard() {
               }
             }}
           >
-            {currentStep === 7 ? '학습 완료' : '다음 단계로'}
+            {currentStep === 7 ? '✅' : '다음 단계로'}
           </button>
         </header>
 

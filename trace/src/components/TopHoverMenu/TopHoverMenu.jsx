@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom'
 import './TopHoverMenu.css'
 
 const menuItems = [
-  { label: 'Home', href: '/HomePage' },
-  { label: 'Learn', href: '/' },
+  { label: 'Home', href: '/' },
+  { label: 'Learn', href: '/Learn' },
   { label: 'Gallery', href: '/Gallery' },
   { label: 'Make', href: '/make' },
 ]
@@ -12,14 +13,14 @@ function TopHoverMenu() {
     <nav className="top-hover-menu" aria-label="Primary navigation">
       <div className="top-hover-menu__bar">
         {menuItems.map((item, index) => (
-          <a
+          <Link
             className="top-hover-menu__link"
-            href={item.href}
             key={item.label}
             style={{ '--menu-delay': `${index * 58}ms` }}
+            to={item.href}
           >
             {item.label}
-          </a>
+          </Link>
         ))}
       </div>
     </nav>

@@ -33,6 +33,14 @@ const stickerOptions = ['⭐', '❤️', '🌈', '🍀', '✨']
 
 const makeId = (prefix) => `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`
 
+const getSavedDesigns = () => {
+  try {
+    return JSON.parse(localStorage.getItem('myDesigns') || '[]')
+  } catch {
+    return []
+  }
+}
+
 const createElement = (type, stickerContent) => {
   const base = {
     id: makeId(type),
@@ -83,6 +91,7 @@ function MakePage() {
   const [selectedId, setSelectedId] = useState(null)
   const [stickerInput, setStickerInput] = useState('✨')
   const [message, setMessage] = useState('')
+  const [savedDesigns, setSavedDesigns] = useState(() => getSavedDesigns())
 
   useEffect(() => {
     if (!message) {
@@ -242,16 +251,26 @@ function MakePage() {
     setMessage('캔버스를 비웠어요.')
   }
 
+  const loadDesign = (design) => {
+    const nextBackgroundIndex = backgrounds.findIndex((background) => background.id === design.background)
+
+    setElements(design.elements || [])
+    setBackgroundIndex(nextBackgroundIndex >= 0 ? nextBackgroundIndex : 0)
+    setSelectedId(null)
+    setMessage('저장한 디자인을 불러왔어요!')
+  }
+
   const saveDesign = () => {
-    const savedDesigns = JSON.parse(localStorage.getItem('myDesigns') || '[]')
     const design = {
       id: makeId('design'),
       createdAt: new Date().toISOString(),
       background: backgrounds[backgroundIndex].id,
       elements,
     }
+    const nextSavedDesigns = [design, ...savedDesigns]
 
-    localStorage.setItem('myDesigns', JSON.stringify([...savedDesigns, design]))
+    localStorage.setItem('myDesigns', JSON.stringify(nextSavedDesigns))
+    setSavedDesigns(nextSavedDesigns)
     setMessage('디자인이 저장되었어요!')
   }
 
@@ -407,6 +426,52 @@ function MakePage() {
             <button className="make-saveButton" onClick={saveDesign} type="button">
               Save Design
             </button>
+          </div>
+
+          <div className="make-savedDesigns" aria-label="저장한 디자인">
+            <div className="make-savedHeader">
+              <span>Saved Designs</span>
+              <strong>{savedDesigns.length}개 저장됨</strong>
+            </div>
+            {savedDesigns.length === 0 ? (
+              <p className="make-savedEmpty">저장한 디자인이 아직 없어요.</p>
+            ) : (
+              <div className="make-savedList">
+                {savedDesigns.map((design, index) => {
+                  const previewBackground =
+                    backgrounds.find((background) => background.id === design.background) || backgrounds[0]
+
+                  return (
+                    <button
+                      className="make-savedItem"
+                      key={design.id}
+                      onClick={() => loadDesign(design)}
+                      type="button"
+                    >
+                      <span className={`make-savedPreview ${previewBackground.className}`} aria-hidden="true">
+                        {(design.elements || []).slice(0, 4).map((element) => (
+                          <i
+                            className={`make-savedPreviewElement make-savedPreviewElement--${element.type}`}
+                            key={element.id}
+                            style={{
+                              left: `${Math.min(82, Math.max(4, (element.x || 0) / 5))}%`,
+                              top: `${Math.min(78, Math.max(6, (element.y || 0) / 5))}%`,
+                              backgroundColor: element.color || 'transparent',
+                            }}
+                          >
+                            {element.type === 'text' ? 'Aa' : element.type === 'sticker' ? element.content : ''}
+                          </i>
+                        ))}
+                      </span>
+                      <span className="make-savedMeta">
+                        <strong>Design {savedDesigns.length - index}</strong>
+                        <span>{new Date(design.createdAt).toLocaleString('ko-KR')}</span>
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+            )}
           </div>
         </aside>
       </section>
