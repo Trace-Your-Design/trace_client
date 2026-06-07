@@ -22,6 +22,10 @@ const ROUTES = [
   {
     path: '/make',
     element: <MakePage />,
+  },
+  {
+    path: '/learn',
+    element: <TraceLearningBoard />,
   }
 ]
 
@@ -30,10 +34,9 @@ function App() {
     <BrowserRouter>
       <TopHoverMenu />
       <Routes>
-        <Route path='/' element={<TraceLearningBoard />} />
-        <Route path="/HomePage" element={<HomePage />} />
+        <Route path='/Learn' element={<TraceLearningBoard />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/Gallery" element={<Gallery />} />
-        <Route path="/make" element={<MakePage />} />
         <Route path="/Make" element={<MakePage />} />
       </Routes>
     </BrowserRouter>

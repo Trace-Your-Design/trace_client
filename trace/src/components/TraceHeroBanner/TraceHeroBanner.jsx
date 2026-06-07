@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import './TraceHeroBanner.css'
 
 const SHOW_BLOB_DEBUG = false
@@ -419,12 +420,12 @@ function TraceHeroBanner() {
               {subtitle}
             </p>
             <div className="trace-hero-banner__actions trace-hero-banner__actions--ghost">
-              <a className="trace-hero-banner__cta trace-hero-banner__cta--primary" href="/Gallery">
+              <Link className="trace-hero-banner__cta trace-hero-banner__cta--primary" to="/Learn">
                 Start Tracing
-              </a>
-              <a className="trace-hero-banner__cta trace-hero-banner__cta--secondary" href="/Gallery">
+              </Link>
+              <Link className="trace-hero-banner__cta trace-hero-banner__cta--secondary" to="/Gallery">
                 View References
-              </a>
+              </Link>
             </div>
           </div>
         </foreignObject>
@@ -437,12 +438,12 @@ function TraceHeroBanner() {
         </h1>
         <p className="trace-hero-banner__subtitle">{subtitle}</p>
         <div className="trace-hero-banner__actions">
-          <a className="trace-hero-banner__cta trace-hero-banner__cta--primary" href="/Gallery">
+          <Link className="trace-hero-banner__cta trace-hero-banner__cta--primary" to="/Learn">
             Start Tracing
-          </a>
-          <a className="trace-hero-banner__cta trace-hero-banner__cta--secondary" href="/Gallery">
+          </Link>
+          <Link className="trace-hero-banner__cta trace-hero-banner__cta--secondary" to="/Gallery">
             View References
-          </a>
+          </Link>
         </div>
       </div>
     </section>
