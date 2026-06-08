@@ -1,0 +1,11 @@
+{
+  "installCommand": "npm --prefix trace install",
+  "buildCommand": "npm --prefix trace run build",
+  "outputDirectory": "trace/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

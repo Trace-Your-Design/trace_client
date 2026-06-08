@@ -122,9 +122,8 @@ export default function TraceLearningBoard() {
                 setPrimaryColor('#18a0fb');
                 setCanvasBg('#ffffff');
               }
-              // navigate를 사용하여 /Homepage로 이동
               if (currentStep === 7) {
-                navigate('/Homepage');
+                navigate('/');
               } else if (currentStep < 7) {
                 setCurrentStep(currentStep + 1);
               }
