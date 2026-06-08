@@ -137,11 +137,14 @@ body {
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
+  width: 100%;
+  min-height: 40px;
 }
 
 .next-btn--complete {
   width: 42px;
   height: 42px;
+  min-height: 42px;
   padding: 0;
   border-radius: 50%;
   background: transparent;
@@ -268,6 +271,8 @@ body {
   width: 240px;
   background: white;
   border-left: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
 }
 
 .panel-header {
@@ -277,7 +282,20 @@ body {
 }
 
 .panel-content {
+  flex: 1;
   padding: 20px;
+  overflow-y: auto;
+}
+
+.panel-footer {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  background: white;
+}
+
+.panel-footer .next-btn--complete {
+  display: block;
+  margin-left: auto;
 }
 
 .prop-group {

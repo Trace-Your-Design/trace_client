@@ -113,24 +113,6 @@ export default function TraceLearningBoard() {
           <div className="assistant-message">
             <strong>도우미: </strong> {stepData.assistant}
           </div>
-          <button 
-            className={`next-btn ${currentStep === 7 ? 'next-btn--complete' : ''}`}
-            aria-label={currentStep === 7 ? '학습 완료' : '다음 단계로'}
-            onClick={() => {
-              // 4번에서 5번 단계로 넘어갈 때 색상 초기화
-              if (currentStep === 4) {
-                setPrimaryColor('#18a0fb');
-                setCanvasBg('#ffffff');
-              }
-              if (currentStep === 7) {
-                navigate('/');
-              } else if (currentStep < 7) {
-                setCurrentStep(currentStep + 1);
-              }
-            }}
-          >
-            {currentStep === 7 ? '✅' : '다음 단계로'}
-          </button>
         </header>
 
         <div className="canvas-area">
@@ -346,6 +328,26 @@ export default function TraceLearningBoard() {
               </div>
             </>
           )}
+        </div>
+        <div className="panel-footer">
+          <button
+            className={`next-btn ${currentStep === 7 ? 'next-btn--complete' : ''}`}
+            aria-label={currentStep === 7 ? '학습 완료' : '다음 단계로'}
+            onClick={() => {
+              // 4번에서 5번 단계로 넘어갈 때 색상 초기화
+              if (currentStep === 4) {
+                setPrimaryColor('#18a0fb');
+                setCanvasBg('#ffffff');
+              }
+              if (currentStep === 7) {
+                navigate('/');
+              } else if (currentStep < 7) {
+                setCurrentStep(currentStep + 1);
+              }
+            }}
+          >
+            {currentStep === 7 ? '✅' : '다음 단계로'}
+          </button>
         </div>
       </aside>
     </div>
