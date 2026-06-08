@@ -1,5 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './Gallery.css';
+
+const fallbackItems = [
+  {
+    id: 'fallback-dashboard',
+    url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80',
+    title: 'Analytics dashboard reference',
+  },
+  {
+    id: 'fallback-workspace',
+    url: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=900&q=80',
+    title: 'Product workspace composition',
+  },
+  {
+    id: 'fallback-mobile',
+    url: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=900&q=80',
+    title: 'Mobile interface reference',
+  },
+  {
+    id: 'fallback-system',
+    url: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=900&q=80',
+    title: 'Design system board',
+  },
+  {
+    id: 'fallback-color',
+    url: 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80',
+    title: 'Color and layout study',
+  },
+  {
+    id: 'fallback-grid',
+    url: 'https://images.unsplash.com/photo-1559028006-448665bd7c7f?auto=format&fit=crop&w=900&q=80',
+    title: 'Interface grid reference',
+  },
+];
 
 // 하트 아이콘
 const HeartIcon = ({ isLiked }) => (
@@ -19,37 +52,54 @@ const HeartIcon = ({ isLiked }) => (
 );
 
 export default function Gallery() {
-  // 1. Unsplash 데이터를 저장할 상태 추가
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(fallbackItems);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [likedIds, setLikedIds] = useState(() => {
-    const savedLikes = localStorage.getItem('liked_ui_refs');
-    return savedLikes ? JSON.parse(savedLikes) : [];
+    try {
+      const savedLikes = localStorage.getItem('liked_ui_refs');
+      return savedLikes ? JSON.parse(savedLikes) : [];
+    } catch {
+      return [];
+    }
   });
   
   const [showFavorites, setShowFavorites] = useState(false);
   
   const [selectedItem, setSelectedItem] = useState(null);
 
-  // 2. 컴포넌트 마운트 시 Unsplash API 호출
   useEffect(() => {
     const fetchImages = async () => {
+      const accessKey = import.meta.env.VITE_UNSPLASH_KEY;
+
+      if (!accessKey) {
+        return;
+      }
+
+      setIsLoading(true);
+
       try {
-        const accessKey = import.meta.env.VITE_UNSPLASH_KEY;
-        
-        // ui-design 키워드로 래퍼런스 이미지 30개 가져오기
         const response = await fetch(`https://api.unsplash.com/search/photos?query=ui-design&per_page=30&client_id=${accessKey}`);
+
+        if (!response.ok) {
+          throw new Error(`Unsplash request failed: ${response.status}`);
+        }
+
         const data = await response.json();
         
-        const formattedData = data.results.map((img) => ({
+        const formattedData = (data.results || []).map((img) => ({
           id: img.id,
           url: img.urls.regular,
           title: img.description || img.alt_description || 'UI/UX Design'
         }));
-        
-        setItems(formattedData);
+
+        if (formattedData.length > 0) {
+          setItems(formattedData);
+        }
       } catch (error) {
         console.error("데이터를 불러오는데 실패했습니다:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -57,7 +107,11 @@ export default function Gallery() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('liked_ui_refs', JSON.stringify(likedIds));
+    try {
+      localStorage.setItem('liked_ui_refs', JSON.stringify(likedIds));
+    } catch {
+      // Ignore storage failures in private browsing or restricted environments.
+    }
   }, [likedIds]);
 
   const toggleLike = (e, id) => {
@@ -69,7 +123,6 @@ export default function Gallery() {
     );
   };
 
-  // 4. API로 받아온 items 상태를 필터링
   const displayedItems = showFavorites 
     ? items.filter(item => likedIds.includes(item.id))
     : items;
@@ -78,7 +131,7 @@ export default function Gallery() {
     <div className="gallery-wrapper">
       <header className="gallery-header">
         <h2>UI/UX 레퍼런스 갤러리</h2>
-        <p>마음에 드는 디자인에 하트를 눌러 즐겨찾기 해보세요!</p>
+        <p>{isLoading ? '최신 레퍼런스를 불러오는 중입니다.' : '마음에 드는 디자인에 하트를 눌러 즐겨찾기 해보세요!'}</p>
         
         <div className="filter-tabs">
           <button 
