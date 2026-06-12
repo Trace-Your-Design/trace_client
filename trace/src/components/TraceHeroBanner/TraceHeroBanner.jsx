@@ -420,10 +420,10 @@ function TraceHeroBanner() {
               {subtitle}
             </p>
             <div className="trace-hero-banner__actions trace-hero-banner__actions--ghost">
-              <Link className="trace-hero-banner__cta trace-hero-banner__cta--primary" to="/Learn">
+              <Link className="trace-hero-banner__cta trace-hero-banner__cta--primary" to="/learn">
                 Start Tracing
               </Link>
-              <Link className="trace-hero-banner__cta trace-hero-banner__cta--secondary" to="/Gallery">
+              <Link className="trace-hero-banner__cta trace-hero-banner__cta--secondary" to="/gallery">
                 View References
               </Link>
             </div>
@@ -438,10 +438,10 @@ function TraceHeroBanner() {
         </h1>
         <p className="trace-hero-banner__subtitle">{subtitle}</p>
         <div className="trace-hero-banner__actions">
-          <Link className="trace-hero-banner__cta trace-hero-banner__cta--primary" to="/Learn">
+          <Link className="trace-hero-banner__cta trace-hero-banner__cta--primary" to="/learn">
             Start Tracing
           </Link>
-          <Link className="trace-hero-banner__cta trace-hero-banner__cta--secondary" to="/Gallery">
+          <Link className="trace-hero-banner__cta trace-hero-banner__cta--secondary" to="/gallery">
             View References
           </Link>
         </div>

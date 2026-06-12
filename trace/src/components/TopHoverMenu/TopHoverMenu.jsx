@@ -3,8 +3,8 @@ import './TopHoverMenu.css'
 
 const menuItems = [
   { label: 'Home', href: '/' },
-  { label: 'Learn', href: '/Learn' },
-  { label: 'Gallery', href: '/Gallery' },
+  { label: 'Learn', href: '/learn' },
+  { label: 'Gallery', href: '/gallery' },
   { label: 'Make', href: '/make' },
 ]
 
